@@ -1,3 +1,0 @@
-/home/kevin/Projects/C++/btree/build-debug/CMakeFiles/rebuild_cache.dir
-/home/kevin/Projects/C++/btree/build-debug/CMakeFiles/btree.dir
-/home/kevin/Projects/C++/btree/build-debug/CMakeFiles/edit_cache.dir

@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/btree.dir/test/BTree.cpp.o  -o btree 
