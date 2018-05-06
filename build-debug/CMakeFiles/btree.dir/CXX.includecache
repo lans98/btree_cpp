@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/BTree.hpp
+cassert
+-
+array
+-
+vector
+-
+iostream
+-
+algorithm
+-
+exception
+-
+utility
+-
+
+/home/kevin/Projects/C++/btree/test/BTree.cpp
+BTree.hpp
+-
+fmt/format.h
+-
+fmt/ostream.h
+-
+

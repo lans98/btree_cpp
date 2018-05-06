@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/kevin/Projects/C++/btree/build",
+  "command": "/usr/bin/c++   -I/home/kevin/Projects/C++/btree/include  -O3 -DNDEBUG   -std=gnu++1z -o CMakeFiles/btree.dir/test/BTree.cpp.o -c /home/kevin/Projects/C++/btree/test/BTree.cpp",
+  "file": "/home/kevin/Projects/C++/btree/test/BTree.cpp"
+}
+]
