@@ -18,4 +18,23 @@ int main() {
   fmt::print("Searching: 0 {{ index: {:<4}, found: {:<5} }}\n", page.find(0).index, page.find(0).found);
   fmt::print("Searching: 8 {{ index: {:<4}, found: {:<5} }}\n", page.find(8).index, page.find(8).found);
   fmt::print("Searching: 9 {{ index: {:<4}, found: {:<5} }}\n", page.find(9).index, page.find(9).found);
+  fmt::print("Searching: 10 {{ index: {:<4}, found: {:<5} }}\n", page.find(10).index, page.find(10).found);
+
+  {
+    btree::Page<int, 8> l;
+    btree::Page<int, 8> r;
+    auto mid = page.split(l, r, false);
+    fmt::print("Without consuming middle key {{ {} }} :\n", mid);
+    fmt::print("l: {}\n",l);
+    fmt::print("r: {}\n",r);
+  }
+
+  {
+    btree::Page<int, 8> l;
+    btree::Page<int, 8> r;
+    auto mid = page.split(l, r, true);
+    fmt::print("Consuming middle key {{ {} }} :\n", mid);
+    fmt::print("l: {}\n",l);
+    fmt::print("r: {}\n",r);
+  }
 }
