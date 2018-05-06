@@ -113,23 +113,23 @@ namespace btree {
     void clear() { m_used = 0; }
     bool is_full() { return m_used == Size; }
 
-    Key split(Page& left, Page& right, bool consume_mid) {
-      auto middle = Size / 2UL;
+    size_t split(Page& left, Page& right, bool consume_mid) {
+      auto middle = m_used / 2UL;
       for (auto i = 0; i < middle; ++i)
         left.m_buf[i] = m_buf[i];
 
-      for (auto i = consume_mid ? middle + 1 : middle; i < Size; ++i)
-        right.m_buf[i] = m_buf[i];
+      for (auto i = consume_mid ? middle + 1 : middle, j = 0UL; i < m_used; ++i, ++j)
+        right.m_buf[j] = m_buf[i];
 
       left.m_used  = middle;
-      right.m_used = consume_mid? Size - middle - 1 : Size - middle;
+      right.m_used = consume_mid? m_used - middle - 1 : m_used - middle;
 
-      return m_buf[middle];
+      return middle;
     }
 
     friend ostream& operator<<(ostream& out, const Page& page) {
-      for (auto& e : page.m_buf)
-        out << e << ' ';
+      for (auto i = 0UL; i < page.m_used; ++i)
+        out << page.m_buf[i] << ' ';
     }
   };
 
@@ -185,7 +185,7 @@ namespace btree {
         return (*node)->add(key);
 
       // If the page is full, do some work to balance it
-      balance_adding(key, node);
+      balance_adding(key, *node);
       return true;
     }
 
@@ -203,16 +203,36 @@ namespace btree {
 
   private:
 
-    void balance_adding(const Key& key, Node** node) {
-      Page<Key, Order> temp_buf((*node)->page());
+    void balance_adding(const Key& key, Node* node) {
+      Page<Key, Order> temp_buf(node->page());
       temp_buf.add(key);
+
+      if (node->is_leaf()) {
+
+      } else {
+
+      }
 
       auto left  = new Node();
       auto right = new Node();
-      left->parent()  = *node;
-      right->parent() = *node;
+      left->parent()  = node->parent();
+      right->parent() = node->parent();
 
-      auto mid = temp_buf.split(left->page(), right->page(), (*node)->is_leaf());
+      if (node->is_leaf())
+        left->next() = right;
+
+      auto parent = node->parent()? node->parent() : new Node();
+      auto middle = temp_buf.split(left->page(), right->page(), !node->is_leaf());
+      size_t index;
+      if (parent->page().is_full())
+        balance_adding(temp_buf[middle], parent);
+      else
+        index = parent->page().add(temp_buf[middle]);
+
+      parent->childs()[index] = left;
+      parent->childs()[index + 1] = right;
+
+      delete node;
     }
 
     bool find(const Key& key, Node**& node, Node*& parent, size_t& index) {
